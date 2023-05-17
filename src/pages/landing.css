@@ -1,0 +1,34 @@
+.landing {
+}
+
+.hero-section {
+  /* height: calc(100vh - 56px); */
+  height: 400px;
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(2, 5, 16),
+    rgb(64, 66, 66)
+  );
+  color: white;
+}
+
+.topic {
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(2, 5, 16),
+    rgb(118, 122, 122)
+  );
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 50%;
+}
+
+.photo {
+  width: 196px;
+  height: 224px;
+  border-radius: 12px;
+}
