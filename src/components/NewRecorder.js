@@ -21,9 +21,8 @@ const NewRecorder = ({ setAudioFile, isRecording, setIsRecording }) => {
           rec.start();
           console.log(rec.state);
           console.log("recorder started");
-
           rec.onstop = async (e) => {
-            const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+            const blob = new Blob(chunks, { type: "audio/webm; codecs=opus" });
             setAudioFile(blob);
             console.log(blob);
             console.log(chunks);

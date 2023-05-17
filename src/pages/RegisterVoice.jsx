@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import NewRecorder from "../components/NewRecorder";
-import MyAudioRecorder from "../components/MyAudioRecorder";
 import "./register.css";
+import { toast } from "react-toastify";
 
 const RegisterVoice = () => {
   const [name, setName] = useState("");
@@ -29,19 +29,23 @@ const RegisterVoice = () => {
       data: formData,
     };
 
+    setIsUploading(true);
+
     axios
       .request(config)
       .then((response) => {
         console.log(response.data);
+        toast.success(response.data.result);
+        setName("");
+        setAudioFile(null);
       })
       .catch((error) => {
         console.log(error);
+        toast.error(error?.message);
+      })
+      .finally(() => {
+        setIsUploading(false);
       });
-
-    // setIsUploading(true);
-    // setTimeout(() => {
-    //   setIsUploading(false);
-    // }, 1500);
   };
 
   return (

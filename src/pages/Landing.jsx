@@ -8,7 +8,7 @@ function Landing() {
       <div className="">
         <div className="hero-section text-center d-flex flex-column justify-content-center align-items-center">
           <h1 className="p-4">Voice Authentication System</h1>
-          <a href="/upload" className="btn btn-dark m-4">
+          <a href="/register" className="btn btn-dark m-4">
             Register my voice!
           </a>
         </div>

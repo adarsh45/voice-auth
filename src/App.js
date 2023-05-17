@@ -3,6 +3,8 @@ import RegisterVoice from "./pages/RegisterVoice";
 import Landing from "./pages/Landing";
 import Container from "./components/Container";
 import LoginVoice from "./pages/LoginVoice";
+import { ToastContainer } from "react-toastify";
+import SuccessPage from "./pages/SuccessPage";
 
 const router = createBrowserRouter([
   {
@@ -29,12 +31,21 @@ const router = createBrowserRouter([
       </Container>
     ),
   },
+  {
+    path: "/home/:name",
+    element: (
+      <Container>
+        <SuccessPage />
+      </Container>
+    ),
+  },
 ]);
 
 function App() {
   return (
     <div className="App">
       <RouterProvider router={router} />
+      <ToastContainer />
     </div>
   );
 }
