@@ -46,7 +46,7 @@ const LoginVoice = () => {
         }
       })
       .catch((error) => {
-        if (error?.response.status == 401) {
+        if (error?.response?.status == 401) {
           toast.error("Your voice authentication failed, " + name);
         } else toast.error(error?.message);
       })
