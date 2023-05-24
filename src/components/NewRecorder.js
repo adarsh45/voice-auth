@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactComponent as MicIcon } from "../assets/mic-icon.svg";
 
 const NewRecorder = ({ setAudioFile, isRecording, setIsRecording }) => {
   const [audioUrl, setAudioUrl] = useState("");
   const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [timerCounter, setTimerCounter] = useState(5);
 
   const handleStartRecording = (e) => {
     e.preventDefault();
@@ -21,6 +22,7 @@ const NewRecorder = ({ setAudioFile, isRecording, setIsRecording }) => {
           rec.start();
           console.log(rec.state);
           console.log("recorder started");
+
           rec.onstop = async (e) => {
             const blob = new Blob(chunks, { type: "audio/webm; codecs=opus" });
             setAudioFile(blob);
@@ -36,6 +38,9 @@ const NewRecorder = ({ setAudioFile, isRecording, setIsRecording }) => {
               track.stop();
               track.enabled = false;
             });
+
+            // set timer to 5 again
+            setTimerCounter(5);
           };
 
           rec.ondataavailable = (e) => {
@@ -52,35 +57,58 @@ const NewRecorder = ({ setAudioFile, isRecording, setIsRecording }) => {
   };
 
   const handleStopRecording = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     console.log(mediaRecorder);
     if (mediaRecorder && mediaRecorder.state === "recording") {
       console.log("STOP");
-
       setIsRecording(false);
       mediaRecorder.stop();
     }
   };
 
+  useEffect(() => {
+    let intervalId;
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      setTimeout(() => {
+        handleStopRecording();
+      }, 6000);
+
+      let timer = timerCounter;
+      intervalId = setInterval(() => {
+        if (timer > 0) {
+          timer--;
+          setTimerCounter(timer);
+        } else clearInterval(intervalId);
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [mediaRecorder]);
+
   return (
     <div>
+      <p className="bg-warning p-2 rounded">
+        Please say something after clicking on mic for 5 seconds!
+      </p>
       {!isRecording ? (
         <button
           onClick={handleStartRecording}
-          className="btn btn-dark record-btn m-auto d-flex align-items-center justify-center"
+          className="btn btn-dark record-btn m-auto d-flex align-items-center justify-content-center"
         >
-          {!isRecording ? <MicIcon /> : <div className="dot-pulse"></div>}
+          <MicIcon />
         </button>
       ) : (
         <button
-          onClick={handleStopRecording}
-          className="btn btn-dark record-btn m-auto d-flex align-items-center justify-center"
+          onClick={(e) => e.preventDefault()}
+          className="btn btn-dark record-btn m-auto d-flex align-items-center justify-content-center"
         >
-          <div className="dot-pulse"></div>
+          <div>{timerCounter}</div>
         </button>
       )}
-      {audioUrl && <audio controls src={audioUrl} />}
+      {audioUrl && (
+        <audio style={{ marginTop: "16px" }} controls src={audioUrl} />
+      )}
     </div>
   );
 };
