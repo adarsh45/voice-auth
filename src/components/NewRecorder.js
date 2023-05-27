@@ -88,27 +88,29 @@ const NewRecorder = ({ setAudioFile, isRecording, setIsRecording }) => {
 
   return (
     <div>
-      <p className="bg-warning p-2 rounded">
-        Please say something after clicking on mic for 5 seconds!
-      </p>
-      {!isRecording ? (
-        <button
-          onClick={handleStartRecording}
-          className="btn btn-dark record-btn m-auto d-flex align-items-center justify-content-center"
-        >
-          <MicIcon />
-        </button>
-      ) : (
-        <button
-          onClick={(e) => e.preventDefault()}
-          className="btn btn-dark record-btn m-auto d-flex align-items-center justify-content-center"
-        >
-          <div>{timerCounter}</div>
-        </button>
-      )}
+      <div className="my-2">
+        {!isRecording ? (
+          <button
+            onClick={handleStartRecording}
+            className="btn btn-dark record-btn m-auto d-flex align-items-center justify-content-center"
+          >
+            <MicIcon style={{ width: "40px", height: "20px" }} />
+          </button>
+        ) : (
+          <button
+            onClick={(e) => e.preventDefault()}
+            className="btn btn-dark record-btn m-auto d-flex align-items-center justify-content-center"
+          >
+            <div>{timerCounter}</div>
+          </button>
+        )}
+      </div>
       {audioUrl && (
         <audio style={{ marginTop: "16px" }} controls src={audioUrl} />
       )}
+      <p className="bg-warning p-2 rounded">
+        Please say something after clicking on mic for 5 seconds!
+      </p>
     </div>
   );
 };

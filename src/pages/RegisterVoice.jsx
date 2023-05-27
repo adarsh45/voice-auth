@@ -20,16 +20,20 @@ const RegisterVoice = () => {
     formData.append("audio", audioFile, "recording.wav");
 
     let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_BACKEND_URL}/enroll`,
+      // method: "post",
+      // maxBodyLength: Infinity,
+      // url: `${process.env.REACT_APP_BACKEND_URL}/enroll`,
       headers: {
         "Access-Control-Allow-Origin": "*",
+        "Content-Type": "multipart/form-data",
       },
-      data: formData,
+
+      // data: formData,
     };
 
     setIsUploading(true);
+
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/enroll`, formData, config);
 
     axios
       .request(config)
@@ -40,7 +44,8 @@ const RegisterVoice = () => {
         setAudioFile(null);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error?.message);
+        console.log({ ...error });
         toast.error(error?.message);
       })
       .finally(() => {
@@ -64,8 +69,6 @@ const RegisterVoice = () => {
           type="text"
           placeholder="Username"
         />
-
-        {/* <MyAudioRecorder /> */}
 
         <NewRecorder
           isRecording={isRecording}
