@@ -33,18 +33,14 @@ const RegisterVoice = () => {
 
     setIsUploading(true);
 
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/enroll`, formData, config);
-
     axios
-      .request(config)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/enroll`, formData, config)
       .then((response) => {
-        console.log(response.data);
         toast.success(response.data.result);
         setName("");
         setAudioFile(null);
       })
       .catch((error) => {
-        console.log(error?.message);
         console.log({ ...error });
         toast.error(error?.message);
       })
